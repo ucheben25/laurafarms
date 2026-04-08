@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Portal - Laura Farms</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/components.css" />
+    <style>
+        .admin-container { padding: 4rem 1rem; max-width: 1000px; margin: 0 auto; }
+        .dashboard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
+        .card { background: #fff; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-bottom: 2rem; }
+        .table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+        .table th, .table td { padding: 1rem; text-align: left; border-bottom: 1px solid #eee; }
+        .table th { background: #f9f9f9; font-weight: 600; }
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    </style>
+</head>
+<body style="background-color: var(--clr-base-cream);">
+
+<div class="admin-container">
+    <div class="dashboard-header">
+        <h2>Admin Portal</h2>
+        <button class="btn btn-secondary" onclick="logout()">Logout</button>
+    </div>
+
+    <!-- Create User -->
+    <div class="card">
+        <h3>1. Generate Client Login</h3>
+        <p class="modal-subtitle">Create a login detail that you will manually email to the client.</p>
+        <form id="createUserForm" class="form-grid" style="margin-top: 1rem;">
+            <div class="form-group">
+                <label class="form-label">Client Email / Username</label>
+                <input type="text" id="newUsername" class="form-input" required />
+            </div>
+            <div class="form-group">
+                <label class="form-label">Client Password</label>
+                <input type="text" id="newPassword" class="form-input" required />
+            </div>
+            <button type="submit" class="btn btn-primary" style="grid-column: span 2;">Generate Credentials</button>
+        </form>
+        <div id="userMsg" style="margin-top: 1rem; color: green; font-weight: bold;"></div>
+    </div>
+
+    <!-- Add Investment -->
+    <div class="card">
+        <h3>2. Assign Investment</h3>
+        <form id="addInvestmentForm" class="form-grid" style="margin-top: 1rem;">
+            <div class="form-group">
+                <label class="form-label">Select Client</label>
+                <select id="userSelect" class="form-input" required></select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Package Name</label>
+                <select id="invPackage" class="form-input">
+                    <option value="Seedling">Seedling</option>
+                    <option value="Harvest">Harvest</option>
+                    <option value="Estate">Estate</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Amount Invested ($)</label>
+                <input type="number" id="invAmount" class="form-input" required />
+            </div>
+            <div class="form-group">
+                <label class="form-label">Current Value ($)</label>
+                <input type="number" id="invValue" class="form-input" required />
+            </div>
+            <div class="form-group">
+                <label class="form-label">Status</label>
+                <input type="text" id="invStatus" class="form-input" value="Active" required />
+            </div>
+            <div class="form-group">
+                <label class="form-label">ROI (%)</label>
+                <input type="text" id="invRoi" class="form-input" placeholder="+12%" required />
+            </div>
+            <button type="submit" class="btn btn-primary" style="grid-column: span 2;">Assign Investment to Client</button>
+        </form>
+        <div id="invMsg" style="margin-top: 1rem; color: green; font-weight: bold;"></div>
+    </div>
+</div>
+
+<script>
+    // Fetch users for dropdown
+    async function fetchUsers() {
+        try {
+            const res = await fetch('/api/admin/users');
+            if (res.status === 401 || res.status === 403) {
+                window.location.href = '/login';
+                return;
+            }
+            const users = await res.json();
+            const select = document.getElementById('userSelect');
+            select.innerHTML = '<option value="">-- Choose Client --</option>';
+            users.forEach(u => {
+                if(!u.is_admin) select.innerHTML += `<option value="${u.id}">${u.username}</option>`;
+            });
+        } catch(e) { console.error(e); }
+    }
+
+    document.getElementById('createUserForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const username = document.getElementById('newUsername').value;
+        const password = document.getElementById('newPassword').value;
+        const res = await fetch('/api/admin/users', {
+            method: 'POST',
+            headers:{'Content-Type':'application/json'},
+            body: JSON.stringify({username, password})
+        });
+        if(res.ok) {
+            document.getElementById('userMsg').innerText = `Created ${username}. Remember to email them!`;
+            document.getElementById('createUserForm').reset();
+            fetchUsers();
+        } else {
+            document.getElementById('userMsg').innerText = 'Failed to create user. Probably exists.';
+        }
+    });
+
+    document.getElementById('addInvestmentForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const body = {
+            user_id: document.getElementById('userSelect').value,
+            package_name: document.getElementById('invPackage').value,
+            amount_invested: document.getElementById('invAmount').value,
+            current_value: document.getElementById('invValue').value,
+            status: document.getElementById('invStatus').value,
+            roi: document.getElementById('invRoi').value
+        };
+        const res = await fetch('/api/admin/investments', {
+            method: 'POST',
+            headers:{'Content-Type':'application/json'},
+            body: JSON.stringify(body)
+        });
+        if(res.ok) {
+            document.getElementById('invMsg').innerText = `Successfully assigned investment!`;
+            document.getElementById('addInvestmentForm').reset();
+        }
+    });
+
+    async function logout() {
+        await fetch('/api/logout', { method: 'POST' });
+        window.location.href = '/login';
+    }
+
+    fetchUsers();
+</script>
+</body>
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Investor Dashboard - Laura Farms</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/components.css" />
+    <style>
+        .dashboard-container { padding: 4rem 1rem; max-width: 1000px; margin: 0 auto; min-height: 80vh; }
+        .dashboard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 3rem; }
+        .stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 3rem; }
+        .stat-card-dash { background: #132a13; color: white; padding: 2rem; border-radius: 12px; text-align: center; }
+        .stat-card-dash .value { font-size: 2.5rem; font-weight: bold; margin-bottom: 0.5rem; color: #D4A017; }
+        .portfolio-card { background: #fff; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 1.5rem;}
+        .inv-grid { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+        .inv-label { font-size: 0.85rem; color: #666; text-transform: uppercase; letter-spacing: 1px;}
+        .inv-value { font-size: 1.25rem; font-weight: 600; color: #333; margin-top: 0.25rem; }
+    </style>
+</head>
+<body style="background-color: var(--clr-base-cream);">
+
+<nav class="navbar" style="background:#fff;">
+    <div class="container">
+      <div class="nav-inner">
+        <a href="/" class="nav-logo">
+          <div class="nav-logo-icon">🌾</div> Laura Farms
+        </a>
+      </div>
+    </div>
+</nav>
+
+<div class="dashboard-container">
+    <div class="dashboard-header">
+        <div>
+            <h2>Welcome Back, <span id="usernameDisplay">Investor</span></h2>
+            <p>Your secure personal investment portal.</p>
+        </div>
+        <button class="btn btn-secondary" onclick="logout()">Logout</button>
+    </div>
+
+    <!-- Overall Stats -->
+    <div class="stats-row">
+        <div class="stat-card-dash">
+            <div class="value" id="totalInvested">$0</div>
+            <div>Total Initial Investment</div>
+        </div>
+        <div class="stat-card-dash">
+            <div class="value" id="totalValue">$0</div>
+            <div>Current Portfolio Value</div>
+        </div>
+        <div class="stat-card-dash">
+            <div class="value" id="avgRoi">0%</div>
+            <div>Avg. Projected ROI</div>
+        </div>
+    </div>
+
+    <h3>Your Active Packages</h3>
+    <div id="investmentsList" style="margin-top:1.5rem;">
+        <p>Loading your portfolio...</p>
+    </div>
+</div>
+
+<script>
+    async function loadDashboard() {
+        try {
+            // Get user info
+            const meRes = await fetch('/api/me');
+            if (!meRes.ok) throw new Error('Unauthorized');
+            const me = await meRes.json();
+            document.getElementById('usernameDisplay').innerText = me.username;
+
+            // Get investments
+            const invRes = await fetch('/api/dashboard');
+            const investments = await invRes.json();
+
+            const list = document.getElementById('investmentsList');
+            if(investments.length === 0) {
+                list.innerHTML = `<p>You currently do not have any active investment packages assigned. If you recently funded an account, please allow 24 hours for it to reflect here.</p>`;
+                return;
+            }
+
+            let totalInv = 0; let totalVal = 0; let html = '';
+            investments.forEach(inv => {
+                totalInv += inv.amount_invested;
+                totalVal += inv.current_value;
+                html += `
+                <div class="portfolio-card">
+                    <div style="font-size:1.5rem; font-weight:bold; margin-bottom:1rem; color:var(--clr-primary);">📦 ${inv.package_name} Package</div>
+                    <div class="inv-grid">
+                        <div>
+                            <div class="inv-label">Initial Invested</div>
+                            <div class="inv-value">$${inv.amount_invested.toLocaleString()}</div>
+                        </div>
+                        <div>
+                            <div class="inv-label">Current Value</div>
+                            <div class="inv-value" style="color: green;">$${inv.current_value.toLocaleString()}</div>
+                        </div>
+                        <div>
+                            <div class="inv-label">Status</div>
+                            <div class="inv-value">${inv.status}</div>
+                        </div>
+                        <div>
+                            <div class="inv-label">Projected ROI</div>
+                            <div class="inv-value">${inv.roi}</div>
+                        </div>
+                    </div>
+                </div>`;
+            });
+            
+            list.innerHTML = html;
+            document.getElementById('totalInvested').innerText = '$' + totalInv.toLocaleString();
+            document.getElementById('totalValue').innerText = '$' + totalVal.toLocaleString();
+            
+            if(totalInv > 0) {
+                const growth = ((totalVal - totalInv) / totalInv) * 100;
+                document.getElementById('avgRoi').innerText = '+' + growth.toFixed(1) + '%';
+            }
+            
+        } catch (e) {
+            console.error(e);
+            window.location.href = '/login';
+        }
+    }
+
+    async function logout() {
+        await fetch('/api/logout', { method: 'POST' });
+        window.location.href = '/login';
+    }
+
+    loadDashboard();
+</script>
+</body>
+</html>

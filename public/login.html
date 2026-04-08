@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Login - Laura Farms</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/components.css" />
+    <style>
+        .login-wrapper { display: flex; align-items: center; justify-content: center; min-height: 100vh; background-color: var(--clr-base-cream); }
+        .login-card { background: #fff; padding: 3rem; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); width: 100%; max-width: 450px; text-align: center; }
+        .login-logo { font-size: 2.5rem; margin-bottom: 1rem; display: block; }
+        .error-msg { color: red; font-size: 0.9rem; margin-bottom: 1rem; text-align: left; }
+    </style>
+</head>
+<body>
+
+<div class="login-wrapper">
+    <div class="login-card">
+        <a href="/" class="login-logo">🌾</a>
+        <h2 style="margin-bottom: 0.5rem;">Laura Farms portal</h2>
+        <p style="color: var(--clr-text-muted); margin-bottom: 2rem;">Sign in to view your investment dashboard.</p>
+        
+        <form id="loginForm" style="text-align: left;">
+            <div class="error-msg" id="errorMsg"></div>
+            <div class="form-group">
+                <label class="form-label" for="username">Email / Username</label>
+                <input type="text" id="username" class="form-input" required />
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="password">Password</label>
+                <input type="password" id="password" class="form-input" required />
+            </div>
+            <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Sign In</button>
+        </form>
+        <p style="margin-top: 2rem; font-size: 0.85rem; color: #888;">Not a client yet? <a href="/#packages" style="color: var(--clr-primary);">Explore packages here.</a></p>
+    </div>
+</div>
+
+<script>
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+        const errDiv = document.getElementById('errorMsg');
+        
+        try {
+            const res = await fetch('/api/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password })
+            });
+            const data = await res.json();
+            
+            if (res.ok) {
+                if(data.is_admin === 1) {
+                    window.location.href = '/admin';
+                } else {
+                    window.location.href = '/dashboard';
+                }
+            } else {
+                errDiv.innerText = data.error || 'Invalid credentials.';
+            }
+        } catch (e) {
+            errDiv.innerText = 'Network error. Please try again.';
+        }
+    });
+</script>
+</body>
+</html>
