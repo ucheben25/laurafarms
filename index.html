@@ -49,13 +49,28 @@
 </div>
 
 
+<style>
+  .hero-img {
+    object-position: center 20%;
+  }
+  @media (max-width: 768px) {
+    .hero-img {
+      object-position: center 10%; /* Shifts focus slightly higher for her raised hand */
+    }
+  }
+  @media (max-width: 480px) {
+    .hero-img {
+      object-position: 65% 15%; /* Adjust center horizontal to bring her squarely into view on tall screens */
+    }
+  }
+</style>
+
 <!-- ========== HERO ========== -->
 <section class="hero" aria-label="Hero">
   <img
     src="images/Laura.jpeg"
     alt="Laura"
     class="hero-img"
-    style="object-position: center 20%;"
   />
   <div class="hero-overlay" style="background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.1) 60%);"></div>
 
