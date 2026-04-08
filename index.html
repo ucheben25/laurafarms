@@ -51,34 +51,44 @@
 
 <style>
   .hero-img {
-    object-position: center 20%;
+    object-position: center 30%;
   }
   @media (max-width: 768px) {
     .hero-img {
-      object-position: center 10%; /* Shifts focus slightly higher for her raised hand */
+      object-position: center center !important; /* Forces the image to center on mobile screens */
+    }
+    .hero-title {
+      font-size: 2.8rem !important; /* Fit text on small screens */
+    }
+    .hero-actions {
+      flex-direction: column;
+      width: 100%;
+    }
+    .hero-actions .btn {
+      width: 100%;
     }
   }
   @media (max-width: 480px) {
     .hero-img {
-      object-position: 65% 15%; /* Adjust center horizontal to bring her squarely into view on tall screens */
+      object-position: 50% 40% !important; /* Perfect middle focus for very small screens */
     }
   }
 </style>
 
 <!-- ========== HERO ========== -->
-<section class="hero" aria-label="Hero">
+<section class="hero" aria-label="Hero" style="align-items: flex-end;">
   <img
-    src="images/Laura.jpeg"
-    alt="Laura"
+    src="images/Laura-in-farm.jpeg"
+    alt="Laura in farm"
     class="hero-img"
   />
-  <div class="hero-overlay" style="background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.1) 60%);"></div>
+  <div class="hero-overlay" style="background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.2) 70%);"></div>
 
-  <div class="container hero-content" style="display: flex; flex-direction: column; justify-content: flex-end; padding-bottom: 5rem; height: 100%;">
-    <h1 class="hero-title" style="margin-bottom: 0;">
+  <div class="container hero-content" style="position: relative; z-index: 2; padding-top: 15vh; padding-bottom: 4rem; width: 100%;">
+    <h1 class="hero-title" style="margin-bottom: 0.5rem; text-align: left;">
       Laura Farms
     </h1>
-    <div class="hero-actions" style="margin-top: 1.5rem; justify-content: flex-start;">
+    <div class="hero-actions" style="margin-top: 1.5rem; justify-content: flex-start; text-align: left;">
       <a href="https://laurafarms.com/youtube/" class="btn btn-primary btn-lg" target="_blank">📺 Watch on YouTube</a>
       <a href="#packages" class="btn btn-secondary btn-lg">🌾 Explore Investments</a>
     </div>
