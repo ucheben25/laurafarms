@@ -896,7 +896,10 @@
 }
 
 @media (max-width: 768px) {
-  .about-grid { grid-template-columns: 1fr; }
+  .about-grid { 
+    grid-template-columns: 1fr; 
+    gap: var(--space-xl);
+  }
 }
 
 .about-image-wrapper {
@@ -910,6 +913,12 @@
   height: 500px;
   object-fit: cover;
   border-radius: var(--radius-lg);
+}
+
+@media (max-width: 768px) {
+  .about-image-wrapper img {
+    height: 300px; /* Make the image shorter so text fits well below it on mobile */
+  }
 }
 
 .about-image-badge {
