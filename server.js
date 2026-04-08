@@ -10,7 +10,17 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+
+// SECURITY MIDDLEWARE: Prevent serving backend files
+app.use((req, res, next) => {
+    const forbidden = ['.sqlite', 'server.js', 'database.js', 'package.json', 'package-lock.json', '.env'];
+    if (forbidden.some(ext => req.path.includes(ext))) {
+        return res.status(403).json({ error: 'Forbidden' });
+    }
+    next();
+});
+
+app.use(express.static(__dirname));
 
 // Simple Authentication Middleware
 const authMiddleware = (req, res, next) => {
@@ -104,9 +114,9 @@ app.post('/api/admin/investments', adminMiddleware, (req, res) => {
 });
 
 // Serve frontend HTML for known routes, keeping static routing clean
-app.get('/login', (req, res) => res.sendFile(path.join(__dirname, 'public', 'login.html')));
-app.get('/dashboard', (req, res) => res.sendFile(path.join(__dirname, 'public', 'dashboard.html')));
-app.get('/admin', (req, res) => res.sendFile(path.join(__dirname, 'public', 'admin.html')));
+app.get('/login', (req, res) => res.sendFile(path.join(__dirname, 'login.html')));
+app.get('/dashboard', (req, res) => res.sendFile(path.join(__dirname, 'dashboard.html')));
+app.get('/admin', (req, res) => res.sendFile(path.join(__dirname, 'admin.html')));
 
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
