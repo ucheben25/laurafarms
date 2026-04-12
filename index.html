@@ -22,8 +22,7 @@
       <div class="container">
         <div class="nav-inner">
           <a href="index.html" class="nav-logo" aria-label="Laura Farms Home">
-            <div class="nav-logo-icon">🌾</div>
-            Laura Farms
+            <img src="images/laura-farms-logo.png" alt="Laura Farms Logo" class="site-logo" />
           </a>
           <div class="nav-menu" role="menubar">
             <a href="index.html" class="nav-link" role="menuitem">Home</a>
@@ -111,11 +110,22 @@
 
     <!-- ========== HERO ========== -->
     <section class="hero" aria-label="Hero" style="align-items: flex-end">
-      <img
-        src="images/Laura-in-farm.jpeg"
-        alt="Laura in farm"
-        class="hero-img"
-      />
+      <div class="hero-carousel" id="heroCarousel" style="position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0;">
+        <img src="images/Laura-in-farm.jpeg" alt="Laura in farm" class="hero-img" style="opacity: 1; transition: opacity 1.5s ease; position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;" />
+        <img src="images/Laura.jpeg" alt="Laura" class="hero-img" style="opacity: 0; transition: opacity 1.5s ease; position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;" />
+        <img src="images/work-in-progress.jpeg" alt="Tractor" class="hero-img" style="opacity: 0; transition: opacity 1.5s ease; position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;" />
+      </div>
+      <script>
+        document.addEventListener('DOMContentLoaded', () => {
+          const slides = document.querySelectorAll('#heroCarousel .hero-img');
+          let currentSlide = 0;
+          setInterval(() => {
+            slides[currentSlide].style.opacity = '0';
+            currentSlide = (currentSlide + 1) % slides.length;
+            slides[currentSlide].style.opacity = '1';
+          }, 5000);
+        });
+      </script>
       <div
         class="hero-overlay"
         style="
@@ -430,8 +440,7 @@
               class="nav-logo"
               style="margin-bottom: 1rem; display: inline-flex"
             >
-              <div class="nav-logo-icon">🌾</div>
-              Laura Farms
+              <img src="images/laura-farms-logo.png" alt="Laura Farms Logo" class="site-logo" />
             </a>
             <p>
               A Nebraska row crop farmer educating the world and providing

@@ -51,15 +51,11 @@
   flex-shrink: 0;
 }
 
-.nav-logo-icon {
-  width: 38px;
-  height: 38px;
-  background: var(--grad-accent);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.1rem;
+.site-logo {
+  height: 48px;
+  width: auto;
+  object-fit: contain;
+  display: block;
 }
 
 .nav-menu {
