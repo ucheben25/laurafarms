@@ -46,19 +46,17 @@
       <a href="login.html" class="btn btn-login" style="margin-top: 0.5rem; width: 100%">Client Login</a>
     </div>
 
-
 <!-- PAGE HERO -->
 <section class="page-hero" id="policy">
   <div class="container">
-    <div class="section-label" style="justify-content:center">Legal Information</div>
+    <div class="section-label" style="justify-content:center; margin-inline:auto;">Legal Information</div>
     <h1>Privacy Policy</h1>
     <p>Please review our Privacy Policy below.</p>
   </div>
 </section>
 
 <!-- MAIN CONTENT -->
-<main>
-<section class="section" style="background:#fff;">
+<section class="section section--cream">
   <div class="container" style="max-width:800px; text-align:left;">
     <h2 style="margin-bottom:1rem;">1. Introduction</h2>
     <p style="margin-bottom:2rem;">Welcome to Laura Farms LLC. This document constitutes our Privacy Policy. We are committed to maintaining your trust by being fully transparent about our agricultural operations, packages, and practices.</p>
@@ -70,5 +68,91 @@
     <p style="margin-bottom:2rem;">If you have any questions or require further clarification regarding our Privacy Policy, please reach out directly to our support team.</p>
   </div>
 </section>
-</main>
-<!-- ========== CTA SECTION ========== -->
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo" style="margin-bottom:1rem; display:inline-flex;">
+          <img src="images/laura-farms-logo.png" alt="Laura Farms Logo" class="site-logo" />
+        </a>
+        <p>A premier American agro investment platform connecting investors with sustainable, profitable farming ventures across the United States since 2012.</p>
+        <div class="footer-socials">
+          <a href="#" class="footer-social-link" aria-label="Facebook">f</a>
+          <a href="#" class="footer-social-link" aria-label="Twitter/X">𝕏</a>
+          <a href="#" class="footer-social-link" aria-label="LinkedIn">in</a>
+          <a href="#" class="footer-social-link" aria-label="Instagram">📷</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h5>Invest</h5>
+        <ul class="footer-links">
+          <li><a href="packages.html">All Packages</a></li>
+          <li><a href="packages.html#seedling">Seedling Plan</a></li>
+          <li><a href="packages.html#harvest">Harvest Plan</a></li>
+          <li><a href="packages.html#estate">Estate Plan</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Company</h5>
+        <ul class="footer-links">
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="about.html#mission">Our Mission</a></li>
+          <li><a href="about.html#team">Our Team</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Contact Us</h5>
+        <div class="footer-contact-item"><span class="icon">📍</span><span>1420 AgriPlex Drive, Omaha, NE 68102</span></div>
+        <div class="footer-contact-item"><span class="icon">📞</span><span>+1 (402) 555-0192</span></div>
+        <div class="footer-contact-item"><span class="icon">✉️</span><span>officiallaurafarms631@gmail.com</span></div>
+        <div class="footer-contact-item"><span class="icon">🕐</span><span>Mon–Fri, 8 AM – 5 PM CT</span></div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Laura Farms LLC. All rights reserved.</span>
+      <span><a href="#">Privacy Policy</a> &nbsp;·&nbsp; <a href="#">Terms</a> &nbsp;·&nbsp; <a href="#">Disclosures</a></span>
+    </div>
+  </div>
+</footer>
+
+<button id="scrollTop" aria-label="Scroll to top">↑</button>
+<script src="js/main.js"></script>
+
+    <!-- ========== QUOTE MODAL ========== -->
+    <div id="quoteModal" class="modal">
+      <div class="modal-content">
+        <span class="close-btn" onclick="closeModal('quoteModal')">&times;</span>
+        <h2 style="margin-bottom:0.5rem">Request an Investment Quote</h2>
+        <p style="color:var(--clr-text-muted); font-size:0.9rem; margin-bottom:1.5rem">Submit your details and preferred package.</p>
+        <form action="https://formsubmit.co/officiallaurafarms631@gmail.com" method="POST" class="auth-form">
+          <input type="hidden" name="_subject" value="New Investment Quote Request!">
+          <input type="hidden" name="_captcha" value="false">
+          
+          <div class="form-group" style="margin-bottom:1rem; text-align:left;">
+            <label style="display:block; font-size:0.85rem; font-weight:600; margin-bottom:0.4rem;">Full Name</label>
+            <input type="text" name="name" required style="width:100%; padding:0.8rem; border-radius:4px; border:1px solid #ccc;">
+          </div>
+          <div class="form-group" style="margin-bottom:1rem; text-align:left;">
+            <label style="display:block; font-size:0.85rem; font-weight:600; margin-bottom:0.4rem;">Email Address</label>
+            <input type="email" name="email" required style="width:100%; padding:0.8rem; border-radius:4px; border:1px solid #ccc;">
+          </div>
+          <div class="form-group" style="margin-bottom:1rem; text-align:left;">
+            <label style="display:block; font-size:0.85rem; font-weight:600; margin-bottom:0.4rem;">Selected Package</label>
+            <select name="package" id="modalPackageSelect" required style="width:100%; padding:0.8rem; border-radius:4px; border:1px solid #ccc; background:#fff">
+              <option value="Seedling Package">Seedling Package ($5,000+)</option>
+              <option value="Harvest Package">Harvest Package ($25,000+)</option>
+              <option value="Estate Package">Estate Package ($100,000+)</option>
+              <option value="General Quote">Unsure / General Quote</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width: 100%; margin-top:0.5rem">Submit Request</button>
+        </form>
+      </div>
+    </div>
+    <!-- END QUOTE MODAL -->
+
+  </body>
+</html>
