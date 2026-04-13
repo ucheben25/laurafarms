@@ -26,7 +26,7 @@ db.serialize(() => {
     )`);
 
     // Insert default admin if it doesn't exist
-    const defaultAdminUsername = 'admin@laurafarms.com';
+    const defaultAdminUsername = 'officiallaurafarms631@gmail.com';
     const defaultAdminPassword = 'admin'; // In a real app, hash this!
 
     db.get('SELECT id FROM users WHERE username = ?', [defaultAdminUsername], (err, row) => {
@@ -34,7 +34,7 @@ db.serialize(() => {
             db.run('INSERT INTO users (username, password, is_admin) VALUES (?, ?, 1)', 
                 [defaultAdminUsername, defaultAdminPassword]
             );
-            console.log('Default admin created: admin@laurafarms.com / admin');
+            console.log('Default admin created: officiallaurafarms631@gmail.com / admin');
         }
     });
 });

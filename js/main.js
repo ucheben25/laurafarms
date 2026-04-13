@@ -214,7 +214,7 @@ document.addEventListener('DOMContentLoaded', () => {
         `Name: ${data.name}\nEmail: ${data.email}\nPhone: ${data.phone || 'N/A'}\nInvestment Amount: $${data.amount || 'TBD'}\n\n` +
         `Message:\n${data.message || 'Please send me more details about this package.'}\n\nThank you.`
       );
-      const mailtoLink = `mailto:invest@laurafarms.com?subject=${subject}&body=${body}`;
+      const mailtoLink = `mailto:officiallaurafarms631@gmail.com?subject=${subject}&body=${body}`;
       window.location.href = mailtoLink;
       quoteForm.reset();
       closeModal('quoteModal');
