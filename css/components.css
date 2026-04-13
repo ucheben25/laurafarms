@@ -1046,16 +1046,26 @@
   padding: var(--space-2xl);
   border-radius: var(--radius-lg);
   width: 90%;
-  max-width: 500px;
-  position: relative;
+  max-width: 450px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   text-align: center;
   box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-  animation: modalFadeIn 0.3s ease;
+  animation: modalFadeIn 0.3s ease forwards;
 }
 
 @keyframes modalFadeIn {
-  from { opacity: 0; transform: translateY(-20px); }
-  to { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; transform: translate(-50%, -60%); }
+  to { opacity: 1; transform: translate(-50%, -50%); }
+}
+
+@media (max-width: 480px) {
+  .modal-content {
+    width: 95%;
+    padding: var(--space-lg);
+  }
 }
 
 .close-btn {
