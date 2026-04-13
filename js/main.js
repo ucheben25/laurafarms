@@ -250,3 +250,45 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => alert.remove(), 6000);
   }
 })();
+
+
+function openModal(modalId, packageName = null) {
+    const modal = document.getElementById(modalId);
+    if (!modal) return;
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+    
+    if (packageName) {
+        const select = document.getElementById('modalPackageSelect');
+        if (select) {
+            for(let i=0; i<select.options.length; i++) {
+                if(select.options[i].value.includes(packageName.split(' ')[0])) {
+                    select.selectedIndex = i;
+                    break;
+                }
+            }
+        }
+    }
+}
+
+function closeModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (!modal) return;
+    modal.style.display = 'none';
+    document.body.style.overflow = '';
+}
+
+function handleQuoteRequest(event) {
+    event.preventDefault();
+    const btn = event.currentTarget;
+    const packageName = btn.getAttribute('data-quote') || "General Quote";
+    openModal('quoteModal', packageName);
+}
+
+// Global modal click off close
+window.onclick = function(event) {
+    if (event.target.classList.contains('modal')) {
+        event.target.style.display = 'none';
+        document.body.style.overflow = '';
+    }
+}
