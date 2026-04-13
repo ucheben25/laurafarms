@@ -246,9 +246,10 @@ p { font-size: 1.0625rem; color: var(--clr-text-muted); line-height: 1.8; }
 }
 
 .btn-primary:hover {
+  background: var(--clr-primary);
+  color: var(--clr-white);
   transform: translateY(-2px);
-  box-shadow: 0 8px 28px rgba(212,160,23,0.5);
-  filter: brightness(1.08);
+  box-shadow: 0 8px 28px rgba(45,106,79,0.5);
 }
 
 .btn-secondary {
@@ -262,6 +263,20 @@ p { font-size: 1.0625rem; color: var(--clr-text-muted); line-height: 1.8; }
   background: rgba(255,255,255,0.12);
   border-color: rgba(255,255,255,0.85);
   transform: translateY(-2px);
+}
+
+.btn-login {
+  background: var(--clr-primary);
+  color: var(--clr-white);
+  border-color: transparent;
+  box-shadow: 0 4px 20px rgba(45,106,79,0.35);
+}
+
+.btn-login:hover {
+  background: var(--grad-accent);
+  color: var(--clr-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(212,160,23,0.5);
 }
 
 .btn-outline {
